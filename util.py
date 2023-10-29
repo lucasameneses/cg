@@ -6,12 +6,6 @@ def delta(x1, y1, x2, y2):
     dx = x2 - x1
     dy = y2 - y1
 
-    # length = math.sqrt(dx ** 2 + dy ** 2)
-
-    # if length != 0:
-    #     dx /= length
-    #     dy /= length
-
     return dx, dy
 
 
@@ -26,8 +20,8 @@ def normalizar_coordenadas(x, y, largura, altura):
 
 
 def denormalizar_coordenadas(x_norm, y_norm, largura, altura):
-    rmin=-1
-    rmax=1
+    rmin = -1
+    rmax = 1
     xs = (x_norm - rmin) / (rmax - rmin)
     ys = (y_norm - rmin) / (rmax - rmin)
 
@@ -37,33 +31,13 @@ def denormalizar_coordenadas(x_norm, y_norm, largura, altura):
     xs += 0
     ys += 0
 
-    print(f'({xs}, {ys})')
-    return xs, ys
-
-def scale2d_interval(vec, scale, rmin=-1, rmax=1):
-    svec = []
-
-    scale_x, scale_y = scale
-    for point in vec:
-        x = point[0]
-        xs = (x - rmin) / (rmax - rmin)
-        xs *= scale_x - 0
-        xs += 0
-
-        y = point[1]
-        ys = (y - rmin) / (rmax - rmin)
-        ys *= scale_y - 0
-        ys += 0
-
-        svec.append((xs, ys))
-
-    return tuple(svec)
+    return round(xs), round(ys)
 
 
 def gen_point():
-    x = random.uniform(-1, 1)
-    y = random.uniform(-1, 1)
-
+    x = round(random.uniform(-1, 1), 2)
+    y = round(random.uniform(-1, 1), 2)
+    print(f'({x}, {y})')
     return x, y
 
 
@@ -73,3 +47,13 @@ def plot_rasterized(points, matrix):
             matrix[math.floor(y)][math.floor(x)] = 1
 
     return matrix
+
+def gen_matrix():
+    resolution_list = [(100, 100), (300, 300), (800, 600), (1920, 1080)]
+    matrix_list = []
+
+    for resolution in resolution_list:
+        matrix = [[0 for _ in range(resolution[0])] for _ in range(resolution[1])]
+        matrix_list.append(matrix)
+
+    return matrix_list

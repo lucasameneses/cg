@@ -1,4 +1,6 @@
 import tkinter as tk
+from PIL import Image, ImageTk
+
 
 def janela():
     root = tk.Tk()
@@ -46,33 +48,30 @@ def janela():
 
     root.mainloop()
 
-def janela2():
+
+def botao_reta():
+    print("AAAAAAA")
+
+
+def janela3(image_name_list):
+    images = []
+
     root = tk.Tk()
-    root.title("Mostrando Imagens")
+    root.title("Exibição de Imagens")
 
-    imagem1 = tk.PhotoImage(file="matrix1.png")
-    imagem2 = tk.PhotoImage(file="matrix2.png")
-    imagem3 = tk.PhotoImage(file="matrix3.png")
-    imagem4 = tk.PhotoImage(file="matrix4.png")
+    frame = tk.Frame(root)
+    frame.pack()
 
-    label1 = tk.Label(root, image=imagem1)
-    label2 = tk.Label(root, image=imagem2)
-    label3 = tk.Label(root, image=imagem3)
-    label4 = tk.Label(root, image=imagem4)
+    for filename in image_name_list:
+        image = Image.open(filename)
+        imagem_tk = ImageTk.PhotoImage(image)
+        images.append(imagem_tk)
 
-    label1.grid(row=0, column=0)
-    label2.grid(row=0, column=1)
-    label3.grid(row=1, column=0)
-    label4.grid(row=1, column=1)
+    for i, image in enumerate(images):
+        label = tk.Label(frame, image=image)
+        label.grid(row=i // 2, column=i % 2)
+
+    button_adicionar_reta = tk.Button(frame, text="Adicionar Reta", command=botao_reta)
+    button_adicionar_reta.grid(row=0, column=5)
 
     root.mainloop()
-
-# def janela3():
-#     root = tk.Tk()
-
-#     imagem = tk.PhotoImage(file="matrix2.png")
-#     w = tk.Label(root, image=imagem)
-#     w.imagem = imagem
-#     w.pack()
-
-#     root.mainloop()
