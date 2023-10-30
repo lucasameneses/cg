@@ -48,6 +48,7 @@ def plot_rasterized(points, matrix):
 
     return matrix
 
+
 def gen_matrix():
     resolution_list = [(100, 100), (300, 300), (800, 600), (1920, 1080)]
     matrix_list = []

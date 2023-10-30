@@ -1,40 +1,58 @@
+import math
 import matplotlib.pyplot as plt
 import util
 import interface
 import raster
 
 
+def insert_points(mx, points):
+    for x, y in points:
+        x = math.floor(x)
+        y = math.floor(y)
+
+        if (y > 0 and x > 0) and (y < len(mx) and x < len(mx[0])):
+            mx[y][x] = 1
+
+
+def plot_reta(matrix_list, p1, p2):
+    image_name_list = []
+    for matrix in matrix_list:
+        matrix = raster.plot_reta(matrix, p1, p2)
+        gen_img(image_name_list, matrix)
+
+
+def plot_poli():
+    pass
+
+
+def plot_curva(matrix_list, p1, p2, t1, t2, t):
+    image_name_list = []
+    for matrix in matrix_list:
+        pts = raster.generate_hermite_pts(matrix, p1, p2, t1, t2, qtn=t)
+        insert_points(matrix, pts)
+        gen_img(image_name_list, matrix)
+
+
+def gen_img(image_name_list, matrix):
+    plt.imshow(matrix, cmap='gray', origin='lower')
+    plt.grid()
+    image_name = "matrix{}x{}.jpg".format(len(matrix[0]), len(matrix))
+    image_name_list.append(image_name)
+    plt.savefig(image_name)
+    plt.close()
+
+
 def main():
     matrix_list = util.gen_matrix()
 
-    ponto1 = util.gen_point()
-    ponto2 = util.gen_point()
-    ponto3 = util.gen_point()
-    ponto4 = util.gen_point()
-
-    # edges_list = [(ponto1, ponto2), (ponto2, ponto3), (ponto3, ponto4), (ponto4, ponto1)]
-
-    edges_list1 = [(-.2,-.2),(-.2,-.4),(-.4,-.4),(-.4,-.2)]
-
-    ponto1 = util.gen_point()
-    ponto2 = util.gen_point()
-    ponto3 = util.gen_point()
-    ponto4 = util.gen_point()
-
-    edges_list2 = [(.2,.2),(.2,.4),(.4,.4),(.4,.2)]
+    p1, p2 = (-.6, 0), (.6, 0)
+    t1, t2 = (.5, 6), (0, 0)
 
     image_name_list = []
     for matrix in matrix_list:
-        matrix = raster.plot_poli(matrix, edges_list1)
-        matrix = raster.plot_poli(matrix, edges_list2)
-        plt.imshow(matrix, cmap='gray', origin='lower')
-        plt.grid()
-        image_name = "matrix{}x{}.jpg".format(len(matrix[0]), len(matrix))
-        image_name_list.append(image_name)
-        plt.savefig(image_name)
-        plt.close()
+        gen_img(image_name_list, matrix)
 
-    interface.janela3(image_name_list)
+    interface.janela(image_name_list, matrix_list)
 
 
 if __name__ == "__main__":
