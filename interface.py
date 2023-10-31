@@ -10,12 +10,20 @@ def importante(val):
     return tuple(float(valor) for valor in valores)
 
 
-def reta_control(root, matrix_list):
+def atualizar_imagens(image_name_list, images, imagem_label):
+    for i, image_name in enumerate(image_name_list):
+        imagem_tk = ImageTk.PhotoImage(Image.open(image_name))
+        images[i] = imagem_tk  # Atualize a lista de imagens
+        label = tk.Label(imagem_label, image=imagem_tk)
+        label.grid(row=i // 2, column=i % 2)
+
+
+def reta_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_reta():
         p1 = importante(entry_p1.get())
         p2 = importante(entry_p2.get())
         CG.plot_reta(matrix_list, p1, p2)
-        # TODO: reload Image
+        atualizar_imagens(image_name_list, images, imagem_label)
 
     reta_frame = tk.Frame(root, padx=10, pady=20)
     reta_frame.grid(row=0, column=0)
@@ -37,11 +45,11 @@ def reta_control(root, matrix_list):
     button_adicionar_reta.grid(row=1, column=4)
 
 
-def poli_control(root):
+def poli_control(root, image_name_list, images, imagem_label):
     def botao_poli():
         print(entry_el.get())
         # TODO: coisa os negocios aqui pra poder ler do jeito certo
-        # TODO: reload Image
+        atualizar_imagens(image_name_list, images, imagem_label)
 
     poli_frame = tk.Frame(root, padx=10, pady=20)
     poli_frame.grid(row=1, column=0)
@@ -58,7 +66,7 @@ def poli_control(root):
     button_adicionar_poli.grid(row=1, column=4)
 
 
-def curva_control(root, matrix_list):
+def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_curva():
         p1 = importante(entry_p1.get())
         p2 = importante(entry_p2.get())
@@ -66,7 +74,7 @@ def curva_control(root, matrix_list):
         t2 = importante(entry_t2.get())
         t = int(entry_t.get())
         CG.plot_curva(matrix_list, p1, p2, t1, t2, t)
-        # TODO: reload Image
+        atualizar_imagens(image_name_list, images, imagem_label)
 
     curva_frame = tk.Frame(root, padx=10, pady=20)
     curva_frame.grid(row=2, column=0)
@@ -103,12 +111,30 @@ def curva_control(root, matrix_list):
     button_adicionar_curva.grid(row=3, column=4)
 
 
+
+
 def janela(image_name_list, matrix_list):
+
+    def rolar(event):
+        canvas.configure(scrollregion=canvas.bbox("all"), yscrollincrement=20, xscrollincrement=20)
+
     root = tk.Tk()
     root.title("Trabalho do DIABO")
 
-    frame_img = tk.Frame(root)
+    canvas = tk.Canvas(root)
+    canvas.pack(fill="both", expand=True)
+
+    scrollbar = tk.Scrollbar(root, orient="horizontal", command=canvas.xview)
+    scrollbar.pack(side="bottom", fill="x")
+    canvas.configure(xscrollcommand=scrollbar.set)
+
+    frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    frame_img = tk.Frame(frame)
     frame_img.grid(row=0, column=0)
+    imagem_label = tk.Label(frame_img)
+    imagem_label.pack()
 
     images = []
     for filename in image_name_list:
@@ -116,16 +142,18 @@ def janela(image_name_list, matrix_list):
         images.append(imagem_tk)
 
     for i, imageh in enumerate(images):
-        label = tk.Label(frame_img, image=imageh)
+        label = tk.Label(imagem_label, image=imageh)
         label.grid(row=i // 2, column=i % 2)
 
-    frame_control = tk.Frame(root)
+    frame_control = tk.Frame(frame)
     frame_control.grid(row=0, column=1)
 
-    reta_control(frame_control, matrix_list)
+    reta_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
-    poli_control(frame_control)
+    poli_control(frame_control, image_name_list, images, imagem_label)
 
-    curva_control(frame_control, matrix_list)
+    curva_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+
+    canvas.bind("<Configure>", rolar)
 
     root.mainloop()
