@@ -4,6 +4,7 @@ import raster.raster_polygon as raster_polygon
 import raster.raster_hermite as raster_hermite
 from util import gen_matrix
 
+
 def plot_reta(matrix_list, p1, p2):
     image_name_list = []
     for matrix in matrix_list:
@@ -34,7 +35,7 @@ def reset_images(matrix_list):
 
 def gen_img(image_name_list, matrix):
     plt.imshow(matrix, cmap="gray", origin="lower")
-    plt.grid()
+    plt.title("matrix {}x{}".format(len(matrix[0]), len(matrix)))
     image_name = "img/matrix{}x{}.jpg".format(len(matrix[0]), len(matrix))
     image_name_list.append(image_name)
     plt.savefig(image_name)

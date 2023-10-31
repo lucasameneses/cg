@@ -121,6 +121,20 @@ def reset_control(root, matrix_list, image_name_list, images, imagem_label):
     reset_button.grid(row=0, column=0)
 
 
+def default_control(root, matrix_list, image_name_list, images, imagem_label):
+    default_frame = tk.Frame(root, padx=10, pady=20)
+    default_frame.grid(row=4, column=0)
+
+    # botao_default_reta = tk.Button(default_frame, text="Adicionar Reta Padrdão", command=default_reta)
+    # botao_default_reta.grid(row=0, column=0)
+    #
+    # botao_default_curva = tk.Button(default_frame, text="Adicionar Curva Padrdão", command=default_curva)
+    # botao_default_curva.grid(row=0, column=1)
+    #
+    # botao_default_polygon = tk.Button(default_frame, text="Adicionar Poligono Padrdão", command=default_polygon)
+    # botao_default_polygon.grid(row=0, column=2)
+
+
 def window(image_name_list, matrix_list):
     def scroll(event):
         canvas.configure(scrollregion=canvas.bbox("all"), yscrollincrement=20, xscrollincrement=20)
@@ -163,7 +177,7 @@ def window(image_name_list, matrix_list):
 
     reset_control(frame_control, matrix_list, image_name_list, images, image_label)
 
-    # default_control(frame_control,  matrix_list, image_name_list, images, image_label)
+    default_control(frame_control, matrix_list, image_name_list, images, image_label)
 
     canvas.bind("<Configure>", scroll)
 
