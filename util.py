@@ -1,5 +1,4 @@
 import math
-import random
 
 
 def delta(x1, y1, x2, y2):

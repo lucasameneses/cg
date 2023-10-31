@@ -123,16 +123,49 @@ def reset_control(root, matrix_list, image_name_list, images, imagem_label):
 
 def default_control(root, matrix_list, image_name_list, images, imagem_label):
     default_frame = tk.Frame(root, padx=10, pady=20)
-    default_frame.grid(row=4, column=0)
+    default_frame.grid(row=5, column=0)
 
-    # botao_default_reta = tk.Button(default_frame, text="Adicionar Reta Padrdão", command=default_reta)
-    # botao_default_reta.grid(row=0, column=0)
-    #
-    # botao_default_curva = tk.Button(default_frame, text="Adicionar Curva Padrdão", command=default_curva)
-    # botao_default_curva.grid(row=0, column=1)
-    #
-    # botao_default_polygon = tk.Button(default_frame, text="Adicionar Poligono Padrdão", command=default_polygon)
-    # botao_default_polygon.grid(row=0, column=2)
+    def default_reta():
+        line_list = [
+            [(-0.75, -0.25), (-0.25, 0.25)],
+            [(-1, 0.25), (-0.5, 0.25)],
+            [(-0.3, -1), (-0.3, -0.5)],
+            [(0, 0), (0.25, 0.75)]
+        ]
+        for line in line_list:
+            gen_image.plot_reta(matrix_list, line[0], line[1])
+        atualizar_imagens(image_name_list, images, imagem_label)
+
+    def default_curva():
+        hermite_list = [
+            [(-0.5, 0.5), (-0.2, 0.5), (0, 2), (0, -0.2), 30],
+            [(0.2, -0.2), (0.5, -0.5), (0.2, 0), (0.5, 5), 30],
+            [(-0.5, -0.5), (-0.5, -0.5), (3, -0.5), (-0.5, 7), 30],
+            [(-0.7, 0.7), (0.4, 0.7), (0.9, 2.8), (0.2, 2.4), 30],
+        ]
+        for hermite in hermite_list:
+            gen_image.plot_curva(matrix_list, hermite[0], hermite[1], hermite[2], hermite[3], hermite[4])
+        atualizar_imagens(image_name_list, images, imagem_label)
+
+    def default_polygon():
+        line_list = [
+            [(-0.75, -0.25), (-0.25, 0.25)],
+            [(-1, 0.25), (-0.5, 0.25)],
+            [(-0.3, -1), (-0.3, -0.5)],
+            [(0, 0), (0.25, 0.75)]
+        ]
+        for line in line_list:
+            gen_image.plot_reta(matrix_list, line[0], line[1])
+        atualizar_imagens(image_name_list, images, imagem_label)
+
+    botao_default_reta = tk.Button(default_frame, text="Adicionar Reta Padrdão", command=default_reta)
+    botao_default_reta.grid(row=0, column=0)
+
+    botao_default_curva = tk.Button(default_frame, text="Adicionar Curva Padrdão", command=default_curva)
+    botao_default_curva.grid(row=0, column=1)
+
+    botao_default_polygon = tk.Button(default_frame, text="Adicionar Poligono Padrdão", command=default_polygon)
+    botao_default_polygon.grid(row=0, column=2)
 
 
 def window(image_name_list, matrix_list):
