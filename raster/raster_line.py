@@ -3,8 +3,8 @@ import math
 
 
 def raster_line(matrix, ponto1, ponto2):
-    x1, y1 = util.denormalizar_coordenadas(*ponto1, len(matrix), len(matrix[0]))  # type: ignore
-    x2, y2 = util.denormalizar_coordenadas(*ponto2, len(matrix), len(matrix[0]))  # type: ignore
+    x1, y1 = util.scale_dot(*ponto1, len(matrix), len(matrix[0]))  # type: ignore
+    x2, y2 = util.scale_dot(*ponto2, len(matrix), len(matrix[0]))  # type: ignore
     points = rasterize(x1, y1, x2, y2)
     return util.plot_rasterized(points, matrix)
 

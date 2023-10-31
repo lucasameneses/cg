@@ -22,7 +22,6 @@ def plot_curva(matrix_list, p1, p2, t1, t2, t):
     image_name_list = []
     for matrix in matrix_list:
         matrix = raster_hermite.generate_hermite(matrix, p1, p2, t1, t2, qtn=t)
-
         gen_img(image_name_list, matrix)
 
 

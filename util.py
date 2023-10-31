@@ -12,6 +12,7 @@ def delta(x1, y1, x2, y2):
 def add_point(x, y, points):
     points.append((round(x), round(y)))
 
+
 def importante(val):
     string = val.replace(" ", "")
     string = string.replace(",", " ")
@@ -19,7 +20,7 @@ def importante(val):
     return tuple(float(valor) for valor in valores)
 
 
-def denormalizar_coordenadas(x_norm, y_norm, largura, altura):
+def scale_dot(x_norm, y_norm, largura, altura):
     rmin = -1
     rmax = 1
     xs = (x_norm - rmin) / (rmax - rmin)
@@ -32,13 +33,6 @@ def denormalizar_coordenadas(x_norm, y_norm, largura, altura):
     ys += 0
 
     return round(xs), round(ys)
-
-
-def gen_point():
-    x = round(random.uniform(-1, 1), 2)
-    y = round(random.uniform(-1, 1), 2)
-    print(f'({x}, {y})')
-    return x, y
 
 
 def plot_rasterized(points, matrix):

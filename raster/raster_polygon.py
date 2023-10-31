@@ -19,7 +19,7 @@ def raster_polygon(matrix, edges_list):
 def scale_edges(edges_list, width, height):
     edges_scaled = []
     for edge in edges_list:
-        scaled_edge = [(util.denormalizar_coordenadas(x_norm, y_norm, width, height)) for x_norm, y_norm in edge]
+        scaled_edge = [(util.scale_dot(x_norm, y_norm, width, height)) for x_norm, y_norm in edge]
         edges_scaled.append(scaled_edge)
     return edges_scaled
 

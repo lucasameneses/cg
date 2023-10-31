@@ -19,12 +19,13 @@ def generate_hermite(matrix, p1, p2, t1, t2, step=.1, qtn: int = None):
         vectors.append((pa, pp))
     ptx = []
     for vec in vectors:
-        x1, y1 = util.denormalizar_coordenadas(*vec[0], len(matrix), len(matrix[0]))
-        x2, y2 = util.denormalizar_coordenadas(*vec[1], len(matrix), len(matrix[0]))
+        x1, y1 = util.scale_dot(*vec[0], len(matrix), len(matrix[0]))
+        x2, y2 = util.scale_dot(*vec[1], len(matrix), len(matrix[0]))
         ts = raster_line.rasterize(x1, y1, x2, y2)
         ptx.extend(ts)
 
-    return insert_points(matrix, ptx)
+    insert_points(matrix, ptx)
+    return matrix
 
 
 def insert_points(matrix, points):

@@ -140,28 +140,30 @@ def window(image_name_list, matrix_list):
 
     frame_img = tk.Frame(frame)
     frame_img.grid(row=0, column=0)
-    imagem_label = tk.Label(frame_img)
-    imagem_label.pack()
+    image_label = tk.Label(frame_img)
+    image_label.pack()
 
     images = []
     for filename in image_name_list:
-        imagem_tk = ImageTk.PhotoImage(Image.open(filename))
-        images.append(imagem_tk)
+        image_tk = ImageTk.PhotoImage(Image.open(filename))
+        images.append(image_tk)
 
     for i, imageh in enumerate(images):
-        label = tk.Label(imagem_label, image=imageh)
+        label = tk.Label(image_label, image=imageh)
         label.grid(row=i // 2, column=i % 2)
 
     frame_control = tk.Frame(frame)
     frame_control.grid(row=0, column=1)
 
-    reta_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+    reta_control(frame_control, matrix_list, image_name_list, images, image_label)
 
-    poli_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+    poli_control(frame_control, matrix_list, image_name_list, images, image_label)
 
-    curva_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+    curva_control(frame_control, matrix_list, image_name_list, images, image_label)
 
-    reset_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+    reset_control(frame_control, matrix_list, image_name_list, images, image_label)
+
+    # default_control(frame_control,  matrix_list, image_name_list, images, image_label)
 
     canvas.bind("<Configure>", scroll)
 
