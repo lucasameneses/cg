@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import raster.raster_line as raster_line
 import raster.raster_polygon as raster_polygon
 import raster.raster_hermite as raster_hermite
-
+from util import gen_matrix
 
 def plot_reta(matrix_list, p1, p2):
     image_name_list = []
@@ -26,8 +26,15 @@ def plot_curva(matrix_list, p1, p2, t1, t2, t):
         gen_img(image_name_list, matrix)
 
 
+def reset_images(matrix_list):
+    mxs = gen_matrix()
+    for i in range(len(matrix_list)):
+        matrix_list[i] = mxs[i]
+        gen_img([], matrix_list[i])
+
+
 def gen_img(image_name_list, matrix):
-    plt.imshow(matrix, cmap='gray', origin='lower')
+    plt.imshow(matrix, cmap="gray", origin="lower")
     plt.grid()
     image_name = "img/matrix{}x{}.jpg".format(len(matrix[0]), len(matrix))
     image_name_list.append(image_name)

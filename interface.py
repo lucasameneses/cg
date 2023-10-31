@@ -109,6 +109,18 @@ def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     button_adicionar_curva.grid(row=3, column=4)
 
 
+def reset_control(root, matrix_list, image_name_list, images, imagem_label):
+    def reset():
+        gen_image.reset_images(matrix_list)
+        atualizar_imagens(image_name_list, images, imagem_label)
+
+    reset_frame = tk.Frame(root, padx=10, pady=20)
+    reset_frame.grid(row=3, column=0)
+
+    reset_button = tk.Button(reset_frame, text="Resetar Imagens", command=reset)
+    reset_button.grid(row=0, column=0)
+
+
 def window(image_name_list, matrix_list):
     def scroll(event):
         canvas.configure(scrollregion=canvas.bbox("all"), yscrollincrement=20, xscrollincrement=20)
@@ -148,6 +160,8 @@ def window(image_name_list, matrix_list):
     poli_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
     curva_control(frame_control, matrix_list, image_name_list, images, imagem_label)
+
+    reset_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
     canvas.bind("<Configure>", scroll)
 
