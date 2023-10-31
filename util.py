@@ -12,6 +12,11 @@ def delta(x1, y1, x2, y2):
 def add_point(x, y, points):
     points.append((round(x), round(y)))
 
+def importante(val):
+    string = val.replace(" ", "")
+    string = string.replace(",", " ")
+    valores = string.split()
+    return tuple(float(valor) for valor in valores)
 
 
 def denormalizar_coordenadas(x_norm, y_norm, largura, altura):

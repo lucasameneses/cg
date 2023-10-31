@@ -1,14 +1,8 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-import CG
+import gen_image
 from ast import literal_eval
-
-
-def importante(val):
-    string = val.replace(" ", "")
-    string = string.replace(",", " ")
-    valores = string.split()
-    return tuple(float(valor) for valor in valores)
+import util
 
 
 def atualizar_imagens(image_name_list, images, imagem_label):
@@ -21,9 +15,9 @@ def atualizar_imagens(image_name_list, images, imagem_label):
 
 def reta_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_reta():
-        p1 = importante(entry_p1.get())
-        p2 = importante(entry_p2.get())
-        CG.plot_reta(matrix_list, p1, p2)
+        p1 = util.importante(entry_p1.get())
+        p2 = util.importante(entry_p2.get())
+        gen_image.plot_reta(matrix_list, p1, p2)
         atualizar_imagens(image_name_list, images, imagem_label)
 
     reta_frame = tk.Frame(root, padx=10, pady=20)
@@ -48,12 +42,10 @@ def reta_control(root, matrix_list, image_name_list, images, imagem_label):
 
 def poli_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_poli():
-        print(entry_el.get())
         lista_de_arestas = literal_eval(entry_el.get())
         lista_de_arestas = [[tuple(map(float, ponto)) for ponto in aresta] for aresta in lista_de_arestas]
 
-        print(lista_de_arestas)
-        CG.plot_poli(matrix_list, lista_de_arestas)
+        gen_image.plot_poli(matrix_list, lista_de_arestas)
 
         atualizar_imagens(image_name_list, images, imagem_label)
 
@@ -74,12 +66,12 @@ def poli_control(root, matrix_list, image_name_list, images, imagem_label):
 
 def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_curva():
-        p1 = importante(entry_p1.get())
-        p2 = importante(entry_p2.get())
-        t1 = importante(entry_t1.get())
-        t2 = importante(entry_t2.get())
+        p1 = util.importante(entry_p1.get())
+        p2 = util.importante(entry_p2.get())
+        t1 = util.importante(entry_t1.get())
+        t2 = util.importante(entry_t2.get())
         t = int(entry_t.get())
-        CG.plot_curva(matrix_list, p1, p2, t1, t2, t)
+        gen_image.plot_curva(matrix_list, p1, p2, t1, t2, t)
         atualizar_imagens(image_name_list, images, imagem_label)
 
     curva_frame = tk.Frame(root, padx=10, pady=20)
@@ -117,12 +109,12 @@ def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     button_adicionar_curva.grid(row=3, column=4)
 
 
-def janela(image_name_list, matrix_list):
-    def rolar(event):
+def window(image_name_list, matrix_list):
+    def scroll(event):
         canvas.configure(scrollregion=canvas.bbox("all"), yscrollincrement=20, xscrollincrement=20)
 
     root = tk.Tk()
-    root.title("Trabalho do DIABO")
+    root.title("Trabalho de CG")
 
     canvas = tk.Canvas(root)
     canvas.pack(fill="both", expand=True)
@@ -157,6 +149,6 @@ def janela(image_name_list, matrix_list):
 
     curva_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
-    canvas.bind("<Configure>", rolar)
+    canvas.bind("<Configure>", scroll)
 
     root.mainloop()
