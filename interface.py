@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import CG
+from ast import literal_eval
 
 
 def importante(val):
@@ -45,10 +46,15 @@ def reta_control(root, matrix_list, image_name_list, images, imagem_label):
     button_adicionar_reta.grid(row=1, column=4)
 
 
-def poli_control(root, image_name_list, images, imagem_label):
+def poli_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_poli():
         print(entry_el.get())
-        # TODO: coisa os negocios aqui pra poder ler do jeito certo
+        lista_de_arestas = literal_eval(entry_el.get())
+        lista_de_arestas = [[tuple(map(float, ponto)) for ponto in aresta] for aresta in lista_de_arestas]
+
+        print(lista_de_arestas)
+        CG.plot_poli(matrix_list, lista_de_arestas)
+
         atualizar_imagens(image_name_list, images, imagem_label)
 
     poli_frame = tk.Frame(root, padx=10, pady=20)
@@ -111,10 +117,7 @@ def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     button_adicionar_curva.grid(row=3, column=4)
 
 
-
-
 def janela(image_name_list, matrix_list):
-
     def rolar(event):
         canvas.configure(scrollregion=canvas.bbox("all"), yscrollincrement=20, xscrollincrement=20)
 
@@ -150,7 +153,7 @@ def janela(image_name_list, matrix_list):
 
     reta_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
-    poli_control(frame_control, image_name_list, images, imagem_label)
+    poli_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 
     curva_control(frame_control, matrix_list, image_name_list, images, imagem_label)
 

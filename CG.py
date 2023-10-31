@@ -21,8 +21,11 @@ def plot_reta(matrix_list, p1, p2):
         gen_img(image_name_list, matrix)
 
 
-def plot_poli():
-    pass
+def plot_poli(matrix_list, edges_list):
+    image_name_list = []
+    for matrix in matrix_list:
+        matrix = raster.plot_poli2(matrix, edges_list)
+        gen_img(image_name_list, matrix)
 
 
 def plot_curva(matrix_list, p1, p2, t1, t2, t):

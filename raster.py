@@ -38,35 +38,70 @@ def plot_reta(matrix, ponto1, ponto2):
     return util.plot_rasterized(points, matrix)
 
 
-def ponto_dentro(ponto, vertices):
+def ponto_dentro(ponto, edges_list):
     x, y = ponto
-    num_vertices = len(vertices)
     dentro = False
 
-    for i in range(num_vertices):
-        xi, yi = vertices[i]
-        xj, yj = vertices[(i + 1) % num_vertices]
-        if ((yi < y <= yj) or (yj < y <= yi)) and (xi + (y - yi) / (yj - yi) * (xj - xi) < x):
+    for edge in edges_list:
+        ponto1, ponto2 = edge
+        x1, y1 = ponto1
+        x2, y2 = ponto2
+
+        if ((y1 < y <= y2) or (y2 < y <= y1)) and (x1 + (y - y1) / (y2 - y1) * (x2 - x1) < x):
             dentro = not dentro
 
     return dentro
 
 
-def plot_poli(matrix, edges_list):
-    poli = [(.0, .0), (.2, .2), (.4, .0), (.2, -.2)]
+def plot_poli2(matrix, edges_list):
 
-    # for i in range(len(edges_list)):
-    #     ponto1 = edges_list[i]
-    #     ponto2 = edges_list[(i + 1) % len(edges_list)]
-    #     plot_reta(matrix, ponto1, ponto2)
+    for i in range(len(edges_list)):
+        edge = edges_list[i]
+        ponto1 = edge[0]
+        ponto2 = edge[1]
+        plot_reta(matrix, ponto1, ponto2)
 
-    for x in range(len(matrix)):
-        for y in range(len(matrix[0])):
-            x_norm, y_norm = util.normalizar_coordenadas(x, y, len(matrix), len(matrix[0]))
-            if ponto_dentro((x_norm, y_norm), edges_list):
-                matrix[x][y] = 1
+    edges_list = escalar_arestas(edges_list, len(matrix), len(matrix[0]))
+
+    matriz = preencher_poligono(matrix, edges_list)
 
     return matrix
+
+
+def preencher_poligono(matrix, edges_list):
+    def get_intersecoes(y, arestas):
+        intersecoes = []
+        for aresta in arestas:
+            x1, y1 = aresta[0]
+            x2, y2 = aresta[1]
+
+            if y1 == y2:
+                continue
+
+            if y1 > y2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
+
+            if y1 <= y < y2:
+                x_intersecao = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
+                intersecoes.append(x_intersecao)
+
+        return sorted(intersecoes)
+
+    for y in range(len(matrix)):
+        intersecoes = get_intersecoes(y, edges_list)
+        for i in range(0, len(intersecoes), 2):
+            for x in range(int(intersecoes[i]), int(intersecoes[i + 1]) + 1):
+                matrix[y][x] = 1
+
+    return matrix
+
+
+def escalar_arestas(edges_list, largura, altura):
+    edges_scaled = []
+    for edge in edges_list:
+        scaled_edge = [(util.denormalizar_coordenadas(x_norm, y_norm, largura, altura)) for x_norm, y_norm in edge]
+        edges_scaled.append(scaled_edge)
+    return edges_scaled
 
 
 def generate_hermite_pts(matrix, p1, p2, t1, t2, step=.1, qtn: int = None):

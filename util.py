@@ -13,11 +13,6 @@ def add_point(x, y, points):
     points.append((round(x), round(y)))
 
 
-def normalizar_coordenadas(x, y, largura, altura):
-    x_normalizado = (2 * x) / (largura - 1) - 1
-    y_normalizado = (2 * y) / (altura - 1) - 1
-    return x_normalizado, y_normalizado
-
 
 def denormalizar_coordenadas(x_norm, y_norm, largura, altura):
     rmin = -1
