@@ -12,11 +12,11 @@ def add_point(x, y, points):
     points.append((round(x), round(y)))
 
 
-def importante(val):
+def tranform_tuple(val):
     string = val.replace(" ", "")
     string = string.replace(",", " ")
-    valores = string.split()
-    return tuple(float(valor) for valor in valores)
+    values = string.split()
+    return tuple(float(value) for value in values)
 
 
 def scale_dot(x_norm, y_norm, largura, altura):

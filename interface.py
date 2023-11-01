@@ -8,15 +8,15 @@ import util
 def atualizar_imagens(image_name_list, images, imagem_label):
     for i, image_name in enumerate(image_name_list):
         imagem_tk = ImageTk.PhotoImage(Image.open(image_name))
-        images[i] = imagem_tk  # Atualize a lista de imagens
+        images[i] = imagem_tk
         label = tk.Label(imagem_label, image=imagem_tk)
         label.grid(row=i // 2, column=i % 2)
 
 
 def reta_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_reta():
-        p1 = util.importante(entry_p1.get())
-        p2 = util.importante(entry_p2.get())
+        p1 = util.tranform_tuple(entry_p1.get())
+        p2 = util.tranform_tuple(entry_p2.get())
         gen_image.plot_reta(matrix_list, p1, p2)
         atualizar_imagens(image_name_list, images, imagem_label)
 
@@ -66,10 +66,10 @@ def poli_control(root, matrix_list, image_name_list, images, imagem_label):
 
 def curva_control(root, matrix_list, image_name_list, images, imagem_label):
     def botao_curva():
-        p1 = util.importante(entry_p1.get())
-        p2 = util.importante(entry_p2.get())
-        t1 = util.importante(entry_t1.get())
-        t2 = util.importante(entry_t2.get())
+        p1 = util.tranform_tuple(entry_p1.get())
+        p2 = util.tranform_tuple(entry_p2.get())
+        t1 = util.tranform_tuple(entry_t1.get())
+        t2 = util.tranform_tuple(entry_t2.get())
         t = int(entry_t.get())
         gen_image.plot_curva(matrix_list, p1, p2, t1, t2, t)
         atualizar_imagens(image_name_list, images, imagem_label)
@@ -149,13 +149,16 @@ def default_control(root, matrix_list, image_name_list, images, imagem_label):
 
     def default_polygon():
         line_list = [
-            [(-0.75, -0.25), (-0.25, 0.25)],
-            [(-1, 0.25), (-0.5, 0.25)],
-            [(-0.3, -1), (-0.3, -0.5)],
-            [(0, 0), (0.25, 0.75)]
+            [[(-1, -1), (-0.75,-0.50)], [(-0.75,-0.50), (-0.50, -1)],[(-0.50, -1),(-1, -1)]],
+            # [(-0.75, -0.25), (-0.25, 0.25), (-0.25, 0.25)],
+            [(-1, 1), (-0.50, 1), (-0.50, 0.50), ( -1, 0.50),( -1, 1)],
+            # [(-0.75, -0.25), (-0.25, 0.25), (-0.25, 0.25), (-0.25, 0.25)],
+            # [(-0.75, -0.25), (-0.25, 0.25), (-0.25, 0.25), (-0.25, 0.25), (-0.25, 0.25)],
+            # [(-0.75, -0.25), (-0.25, 0.25), (-0.25, 0.25), (-0.25, 0.25), (-0.25, 0.25) ],
+
         ]
         for line in line_list:
-            gen_image.plot_reta(matrix_list, line[0], line[1])
+            gen_image.plot_poli(matrix_list, line)
         atualizar_imagens(image_name_list, images, imagem_label)
 
     botao_default_reta = tk.Button(default_frame, text="Adicionar Reta Padrdão", command=default_reta)
